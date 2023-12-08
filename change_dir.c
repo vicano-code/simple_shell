@@ -1,6 +1,5 @@
 #include "shell.h"
 
-#define MAX_SIZE 1024
 
 /**
  * change_dir - changes the directory to the given directory
@@ -11,22 +10,23 @@
  */
 void change_dir(char **cmd, char *str, int n)
 {
-	char old_dir[MAX_SIZE];
-	char new_dir[MAX_SIZE];
+	char old_dir[MAX_LINE];
+	char new_dir[MAX_LINE];
 	char *txt;
 
 	if (cmd[1] == NULL || strcmp(cmd[1], "$HOME") == 0)
 		cmd[1] = getenv("HOME");
 	if (strcmp(cmd[1], "-") == 0)
-		cmd[1] = getenv("OLD_PWD");
-
+	{
+		cmd[1] = getenv("OLDPWD");
+		printf("%s\n", cmd[1]);
+	}
 	getcwd(old_dir, sizeof(old_dir));
-
 	if (chdir(cmd[1]) == -1)
 	{
-		txt = malloc(sizeof(char *) * 120);
+		/*txt = malloc(sizeof(char *) * 120);*/
 		txt = "cant cd to";
-		strcat(txt, cmd[1]);
+		/*strcat(txt, cmd[1]);*/
 		_pcerror(str, n, cmd[1], txt);
 	}
 	else

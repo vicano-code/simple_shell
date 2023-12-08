@@ -15,6 +15,13 @@
 
 extern char **environ;
 int _putchar(char c);
+int _getpid(void);
+char *_strcpy(char *dest, char *src);
+char *_strchr(char *s, char c);
+void sigintHandler(int signum);
+int cmd_array(char *line, char **cmd);
+void _setenv(char **cmd);
+void exit_shell(char **cmd);
 int execute_cmd(char **cmd, char *str, int count);
 char *get_cmd_path(char **cmd, char *cmd_path);
 void _pcerror(char *str, int n, char *c, char *s);

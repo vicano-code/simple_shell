@@ -12,6 +12,6 @@ int _getpid(void)
 
 	my_pid = getpid();
 
-	printf("%u", my_pid);
+	printf("%u\n", my_pid);
 	return (0);
 }

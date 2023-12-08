@@ -15,7 +15,7 @@ int execute_cmd(char **cmd, char *str, int count)
 	char *cmd_dir = malloc(sizeof(char *) * MAX_ARGS);
 	pid_t pid;
 	int status;
-	char *s ="not found";
+	char *s = "not found";
 
 	if (access(cmd[0], X_OK) != 0)/*check if cmd is executable*/
 	{
