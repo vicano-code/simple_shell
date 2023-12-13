@@ -27,7 +27,7 @@ int cmd_array(char *line, char **cmd)
 	char *s;
 
 	token = strtok(line, " \t\n");
-	while (token != NULL)
+	while (token != NULL && strcmp(token, "#"))
 	{
 		cmd[i] = token;
 		i++;
@@ -38,10 +38,11 @@ int cmd_array(char *line, char **cmd)
 	if (cmd[1] != NULL && strchr(cmd[1], '$') != NULL)
 	{
 		_strcpy(v, cmd[1]);
-		if ((s = getenv(v)) != NULL)
+		s = getenv(v);
+		if (s != NULL)
 			strcpy(cmd[1], s);
 		if (strcmp(v, "$") == 0)
-		{	
+		{
 			_getpid();
 			free(v);
 			return (1);
@@ -58,10 +59,12 @@ int cmd_array(char *line, char **cmd)
  */
 void exit_shell(char **cmd)
 {
-	if (cmd[1] == NULL)
+	if (cmd[1] == NULL || cmd[1] == 0)
 		exit(EXIT_SUCCESS);
+
 	else
-	{	
+	{
+		WEXITSTATUS(atoi(cmd[1]));
 		exit(atoi(cmd[1]));
 	}
 }

@@ -4,7 +4,6 @@
  * _strcpy - copies a string starting from the second character
  * @dest: destination of copied string
  * @src: string to copy
- * @n: Max number of bytes of src copied
  * Return: dest
  */
 

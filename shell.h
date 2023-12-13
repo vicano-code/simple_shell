@@ -25,6 +25,7 @@ void exit_shell(char **cmd);
 int execute_cmd(char **cmd, char *str, int count);
 char *get_cmd_path(char **cmd, char *cmd_path);
 void _pcerror(char *str, int n, char *c, char *s);
+ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 void change_dir(char **cmd, char *str, int n);
 
 #endif
