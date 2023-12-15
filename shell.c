@@ -53,7 +53,7 @@ void cmds_execution(char **cmd, char **argv, int n)
 int main(int argc, char **argv)
 {
 	FILE *stream;
-	char *line = NULL, *cmd[MAX_ARGS];
+	char *line = NULL;
 	size_t len = 0;
 	ssize_t nread;
 	int count = 0, fd = 3;
@@ -74,16 +74,10 @@ int main(int argc, char **argv)
 			break;
 		if (nread > 1)
 		{
-			if (cmd_array(line, cmd) != 1)
-			{
-				if (strcmp(cmd[0], "exit") == 0)
-				{
-					free(line);
-					exit_shell(cmd);
-				}
-
-				cmds_execution(cmd, argv, count);
-			}
+			if (strchr(line, ';') != NULL)
+				cmd_with_semicolon(argv, line, count);
+			else
+				other_cmds_execution(argv, line, count);
 		}
 	}
 	fclose(stream);
