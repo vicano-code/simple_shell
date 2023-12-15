@@ -1,19 +1,6 @@
 #include "shell.h"
 
 /**
- * sigintHandler - control the ctrl-c signal handler
- * @signum: not used
- * Return: Nothing
- */
-void sigintHandler(int signum)
-{
-	(void)signum;
-	_putchar('\n');
-	_putchar('$');
-	_putchar(' ');
-}
-
-/**
  * cmd_array - put command arguments in array
  * @line: line arguments
  * @cmd: pointer to shell terminal command array
@@ -27,13 +14,16 @@ int cmd_array(char *line, char **cmd)
 	char *s;
 
 	token = strtok(line, " \t\n");
-	while (token != NULL && strcmp(token, "#"))
+	/*implement the comment # */
+	while (token != NULL && strcmp(token, "#") != 0 && strchr(token, '#') == NULL)
 	{
 		cmd[i] = token;
 		i++;
 		token = strtok(NULL, " \t\n");
 	}
 	cmd[i] = NULL;
+	if (cmd[0] == NULL) /*when input is only empy spaces*/
+		return (1);
 	/* implement the variable $ response */
 	if (cmd[1] != NULL && strchr(cmd[1], '$') != NULL)
 	{
@@ -70,20 +60,46 @@ void exit_shell(char **cmd)
 }
 
 /**
- * _setenv - To implement the setenv & unsetenv in the shell
+ * _setenv - To set a variable in the shell environment
  * @cmd: pointer to the shell terminal command array
- * Return: Nothing
+ * Return: 1 if success, -1 fail
  */
-void _setenv(char **cmd)
+int _setenv(char **cmd)
 {
+	int j = 0;
+	char *tok;
+	char *arg[MAX_ARGS];
+
 	if (strcmp(cmd[0], "setenv") == 0)
 	{
 		if (setenv(cmd[1], cmd[2], 1) == -1)
-			printf("setenv: failed");
+			return (-1);
 	}
-	else
+	else if (strchr(cmd[0], '=') != NULL) /*set variable using '='*/
 	{
-		if (unsetenv(cmd[1]) == -1)
-			printf("unsetenv: failed");
+		tok = strtok(cmd[0], "=");
+		while (tok != NULL)
+		{
+			arg[j] = tok;
+			j++;
+			tok = strtok(NULL, "=");
+		}
+		arg[j] = NULL;
+		if (setenv(arg[0], arg[1], 1) == -1)
+			return (-1);
 	}
+	return (1);
+}
+
+/**
+ * _unsetenv - To unset a variable in the shell environment
+ * @cmd: pointer to the shell terminal command array
+ * Return: 1 if success, -1 fail
+ */
+int _unsetenv(char **cmd)
+{
+	if (unsetenv(cmd[1]) == -1)
+		return (-1);
+
+	return (1);
 }

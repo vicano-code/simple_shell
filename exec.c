@@ -1,6 +1,5 @@
 #include "shell.h"
 
-
 /**
  * execute_cmd - command execution using execve
  * @cmd: pointer to array of command and arguments
@@ -28,8 +27,7 @@ int execute_cmd(char **cmd, char *str, int count)
 		}
 		cmd[0] = cmd_path;
 	}
-	/* create child process to run command */
-	pid = fork();
+	pid = fork(); /* create child process to run command */
 	if (pid == -1)
 	{
 		perror("fork");
